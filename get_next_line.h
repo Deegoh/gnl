@@ -6,7 +6,7 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:56:23 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/10/26 18:55:11 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/10/27 17:40:03 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 1 
 # endif
 # ifndef INDEX
-#  define INDEX 3
+#  define INDEX 5
 # endif
 
 char	*ft_substr(char const *s, unsigned int start, size_t len);

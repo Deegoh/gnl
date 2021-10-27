@@ -6,7 +6,7 @@
 #    By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/21 17:35:44 by tpinto-m          #+#    #+#              #
-#    Updated: 2021/10/26 18:34:04 by tpinto-m         ###   ########.fr        #
+#    Updated: 2021/10/27 17:50:32 by tpinto-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,12 @@ FD = t
 
 all: $(NAME)
 
+lldb: $(OBJ)
+	$(CC) $(FLAGS) -fsanitize=address $(SRC) -o $(NAME)
+	lldb g t
+
 $(NAME):
-	$(CC) $(FLAGS) $(BFLAGS) $(SRC) -o $(NAME)
+	$(CC) $(FLAGS) $(SRC) -o $(NAME)
 	./$(NAME) $(FD)
 clean:
 	$(RM) $(OBJ)
