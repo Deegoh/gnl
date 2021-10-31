@@ -6,7 +6,7 @@
 #    By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/21 17:35:44 by tpinto-m          #+#    #+#              #
-#    Updated: 2021/10/27 17:50:32 by tpinto-m         ###   ########.fr        #
+#    Updated: 2021/10/29 15:18:25 by tpinto-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ lldb: $(OBJ)
 
 $(NAME):
 	$(CC) $(FLAGS) $(SRC) -o $(NAME)
-	./$(NAME) $(FD)
+	./$(NAME) $(FD) | cat -e
 clean:
 	$(RM) $(OBJ)
 fclean: clean

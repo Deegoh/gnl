@@ -6,7 +6,7 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 11:33:32 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/10/25 17:59:01 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/10/29 15:33:56 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,14 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	char	*res;
 	size_t	i;
 
-	i = 0;
-	res = malloc(sizeof(*res) * (len + 1));
-	if (!res || !s)
+	if (!s)
 		return (NULL);
+	if (start > (unsigned int)ft_strlen(s))
+		len = 0;
+	res = malloc(sizeof(char) * (len + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
 	while (i < len && start < (unsigned int)ft_strlen(s))
 		res[i++] = s[start++];
 	res[i] = '\0';

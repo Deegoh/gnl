@@ -6,7 +6,7 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:56:03 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/10/27 17:53:05 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/10/29 15:49:38 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,116 +44,50 @@ int		posnl(char	*str)
 	}
 	return (i);
 }
-/*
-char	*get_next_line(int fd)
-{
-	static char		*str;
-	char			*buf;
-	int				ret;
-	char			*tmp;
 
-	if (fd < 0)
-		return (NULL);
-	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (NULL);
-	tmp = NULL;
-	if (countnl(str))
-	{
-		printf("%s", str);
-//		printf("%d", posnl(str));
-//		printf("%s", tmp);
-		tmp = ft_substr(str, 1, posnl(str));
-		if (countnl(str))
-			str = ft_strchr(str, '\n');
-//		else
-//			str = ft_strchr(tmp, '\0');
-//		printf("%s", posnl(str));
-//		printf("%s", str);
-		//tmp = ft_substr(str, 1, ft_strlen(str));
-		return (tmp);
-	}
-	while (!ft_strchr(buf, '\n'))
-	{
-		ret = read(fd, buf, BUFFER_SIZE);
-		if (ret == -1)
-			return (NULL);
-		if (!tmp)
-		{
-			tmp = ft_substr(buf, 0, ret);
-		}
-		else
-		{
-			tmp = ft_strjoin(tmp, buf);
-		}
-		if (ret != BUFFER_SIZE)
-			break ;
-	}
-	//printf("%d", ret);
-	if (ret != BUFFER_SIZE)
-	{
-		//tmp = ft_substr(tmp, 0, ret);
-		//printf("%s$", str);
-		//printf("%s$", tmp);
-
-		return (NULL);
-	}
-
-	tmp = ft_substr(tmp, 0, posnl(tmp) + 1);
-	str = ft_strchr(buf, '\n');
-	//tmp[posnl(tmp) + 1] = '\0';
-	return (tmp);
-}
-*/
-
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
 	static char	*str;
-	char		*tmp;
 	char		*buf;
+	char		*tmp;
+	char		*res;
 	int			ret;
+	static int	i = 0;
 
-	if (fd < 0)
-		return (NULL);
+	if (fd < 0 && BUFFER_SIZE <= 0)
+		return (NULL);	
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	tmp = NULL;
-	if (str)
+	ret = read(fd, buf, BUFFER_SIZE);
+	buf[ret] = '\0';
+	while (ret > 0)
 	{
-		tmp = ft_substr(str, 1, posnl(str));
-		str = ft_strchr(str + posnl(str), '\n');
+		buf[ret] = '\0';
+		if (!str)
+			str = ft_strdup("");
+		tmp = ft_strjoin(str, buf);
+		str = tmp;
 		free(tmp);
-		return (tmp);
+		ret = read(fd, buf, BUFFER_SIZE);
+		if (!ft_strchr(buf,'\n'))
+			return (ft_strdup(buf));
 	}
-	if (!tmp)
-	{
-		while (!ft_strchr(buf, '\n'))
-		{
-			ret = read(fd, buf, BUFFER_SIZE);
-			if (ret == -1)
-				return (NULL);
-			if (!tmp)
-				tmp = ft_substr(buf, 0, ret);
-			else
-				tmp = ft_strjoin(tmp, buf);
-			if (ret != BUFFER_SIZE)
-				break ;
-		}
-		if (!tmp)
-		{
-			if (countnl(buf))
-			{
-				tmp = ft_substr(buf, 0, posnl(buf) + 1);
-				str = ft_strchr(buf, '\n');
-			}
-		}
-	}
+	res = ft_substr(str, 0, posnl(str));
+	printf("%s\n", res);
+	printf("%d\n", ft_strlen(res));
+	printf("%d\n", ft_strlen(str));
+	printf("%d\n", posnl(str));
+	//tmp = ft_substr(str, ft_strlen(res), ft_strlen(str) - posnl(str));
+	printf("%s", tmp);
+	str = tmp;
 	free(tmp);
-	return (tmp);
+	free(buf);
+	printf("%d", i);
+	i++;
+	return (res);
 }
 
-/*
 int	main(int ac, char **av)
 {
 	int		i;
@@ -171,7 +105,8 @@ int	main(int ac, char **av)
 			printf("%s", get_next_line(fd));
 		}
 //		printf("FIN");
+		close(fd);
 	}
 	return (0);
 }
-*/
+
