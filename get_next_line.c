@@ -6,14 +6,14 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:56:03 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/11/01 17:57:05 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/02 17:50:39 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <string.h>
 
-int		countnl(char	*str)
+int		count_nl(char	*str)
 {
 	int	i;
 
@@ -29,7 +29,7 @@ int		countnl(char	*str)
 	return (i);
 }
 
-int		posnl(char	*str)
+int		pos_nl(char	*str)
 {
 	int	i;
 
@@ -45,6 +45,43 @@ int		posnl(char	*str)
 	return (i);
 }
 
+int read_file(char *buf, char **s_buf, int fd)
+{
+	int	file;
+	//int	i;
+	char *tmp;
+
+	tmp = *s_buf;
+	while (!ft_strchr(*s_buf, '\n'))
+	{
+		file = read(fd, buf, BUFFER_SIZE);
+		buf[file] = '\0';
+		printf("%s",buf);
+		*s_buf = ft_strjoin(tmp, buf);
+	}
+	return (file);
+}
+
+char *get_next_line(int fd)
+{
+	char		*buf;
+	int			ret;
+	static char *s_buf = NULL;
+	
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);	
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return (NULL);
+	if (!s_buf)
+		s_buf = ft_strdup("");
+	ret = read_file(buf, &s_buf, fd);
+	free(buf);
+	buf = NULL;
+	return (s_buf);
+}
+
+/*
 char *get_next_line(int fd)
 {
 	static char	*str;
@@ -79,8 +116,12 @@ char *get_next_line(int fd)
 				str = NULL;
 				return (NULL);
 			}
+			//printf("dup");
 			ret = ft_strdup(buf);
-			//printf("ret:%s\n", ret);
+			//printf("file:%d", file);
+			//printf("buf%s", buf);
+			//printf("ret:%s", ret);
+			//printf("blen%d", ft_strlen(buf));
 			free(str);
 			str = NULL;
 			free(buf);
@@ -90,6 +131,17 @@ char *get_next_line(int fd)
 				free(ret);
 				return (NULL);
 			}
+			if (file < BUFFER_SIZE)
+			{
+				ret = ft_strdup(buf);
+				return (ret);
+			}
+			if (file == 0)
+			{
+				free(ret);
+				return (NULL);
+			}
+			//printf("%s", buf);
 			return (ret);
 		}
 		buf[file] = '\0';
@@ -113,6 +165,7 @@ char *get_next_line(int fd)
 	buf = NULL;
 	return (ret);
 }
+*/
 /*
 int	main(int ac, char **av)
 {
@@ -122,7 +175,6 @@ int	main(int ac, char **av)
 	i = INDEX;
 	if (ac == 2)
 	{
-		printf("FD\n");
 		fd = open(av[1], O_RDONLY);
 		if (fd == -1)
 			return (0);

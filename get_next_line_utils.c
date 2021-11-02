@@ -6,21 +6,19 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 11:33:32 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/11/01 10:54:47 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/02 16:59:53 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const	*s1, char const	*s2)
+char	*ft_strjoin(char *s1, char const	*s2)
 {
 	int		len;
 	char	*res;
 	int		i;
 	int		j;
 
-	if (!s1 || !s2)
-		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
 	res = malloc(len + 1);
 	if (!res)
@@ -33,6 +31,7 @@ char	*ft_strjoin(char const	*s1, char const	*s2)
 	while (s2[j])
 		res[i++] = s2[j++];
 	res[i] = '\0';
+	free(s1);
 	return (res);
 }
 
@@ -63,8 +62,9 @@ char	*ft_strdup(const char *s1)
 	int		slen;
 	int		i;
 	char	*str;
-
+	
 	slen = ft_strlen((char *)s1);
+	//printf("strdup%d" ,slen);
 	i = -1;
 	str = (char *)malloc(slen + 1);
 	if (!str)
