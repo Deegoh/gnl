@@ -6,7 +6,7 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 11:33:32 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/11/02 16:59:53 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/03 13:01:15 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*ft_strchr(const char *str, int c)
 	while (str[i] && str[i] != (char)c)
 		i++;
 	if (str[i] == (char)c)
+		return (&((char *)str)[i]);
+	if (str[i] == '\0' && (char)c == '\0')
 		return (&((char *)str)[i]);
 	return (NULL);
 }

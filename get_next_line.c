@@ -6,7 +6,7 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:56:03 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/11/02 17:50:39 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/03 18:05:58 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,127 +45,54 @@ int		pos_nl(char	*str)
 	return (i);
 }
 
-int read_file(char *buf, char **s_buf, int fd)
+char	*process_line(char **ret, char **s_buf)
 {
-	int	file;
-	//int	i;
-	char *tmp;
+	int		i;
+	char	*n_buf;
 
-	tmp = *s_buf;
-	while (!ft_strchr(*s_buf, '\n'))
+	n_buf = NULL;
+	i = 0;
+	while ((*s_buf)[i] != '\n' && (*s_buf)[i])
+		i++;
+	if ((*s_buf)[i] == '\n')
 	{
-		file = read(fd, buf, BUFFER_SIZE);
-		buf[file] = '\0';
-		printf("%s",buf);
-		*s_buf = ft_strjoin(tmp, buf);
+		i++;
+		*ret = ft_substr(*s_buf, 0, i);
 	}
-	return (file);
+	else if ((*s_buf)[i] == '\0')
+		*ret = ft_strdup(*s_buf);
+	n_buf = ft_strdup(&(*s_buf)[i]);
+	if (i == 0)
+		*ret = NULL;
+	return (n_buf);
 }
 
 char *get_next_line(int fd)
 {
 	char		*buf;
-	int			ret;
+	char		*ret;
 	static char *s_buf = NULL;
+	static int	file = 1;
 	
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);	
+		return (NULL);
+	
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
 	if (!s_buf)
 		s_buf = ft_strdup("");
-	ret = read_file(buf, &s_buf, fd);
-	free(buf);
-	buf = NULL;
-	return (s_buf);
-}
-
-/*
-char *get_next_line(int fd)
-{
-	static char	*str;
-	char		*buf;
-	char		*tmp;
-	char		*ret;
-	int			file;
-	char		*nl;
-	int			nlpos;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);	
-	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (NULL);
-	tmp = NULL;
-	if (!str)
-		str = ft_strdup("");
-	nl = ft_strchr(str, '\n');
-	//printf("nl%s\n", nl);
-	while (!nl)
+	while (file && !ft_strchr(s_buf, '\n'))
 	{
 		file = read(fd, buf, BUFFER_SIZE);
-		if (file <= 0)
-		{
-			//printf("file:%d\n", file);
-			if (!*buf)
-			{
-				free(buf);
-				buf = NULL;
-				free(str);
-				str = NULL;
-				return (NULL);
-			}
-			//printf("dup");
-			ret = ft_strdup(buf);
-			//printf("file:%d", file);
-			//printf("buf%s", buf);
-			//printf("ret:%s", ret);
-			//printf("blen%d", ft_strlen(buf));
-			free(str);
-			str = NULL;
-			free(buf);
-			buf = NULL;
-			if (file < 0)
-			{
-				free(ret);
-				return (NULL);
-			}
-			if (file < BUFFER_SIZE)
-			{
-				ret = ft_strdup(buf);
-				return (ret);
-			}
-			if (file == 0)
-			{
-				free(ret);
-				return (NULL);
-			}
-			//printf("%s", buf);
-			return (ret);
-		}
 		buf[file] = '\0';
-		if (!str)
-			str = ft_strdup("");
-		tmp = ft_strjoin(str, buf);
-		free(str);
-		str = tmp;
-		nl = ft_strchr(str, '\n');
+		s_buf = ft_strjoin(s_buf, buf);
 	}
-	nlpos = 0;
-	tmp = str;
-	while(tmp[nlpos] != '\n')
-		nlpos++;
-	//printf("nlpos%d", nlpos);
-	str = ft_substr(str, nlpos + 1, ft_strlen(tmp));
-	tmp[nlpos + 1] = '\0';
-	ret = tmp;
-	tmp = NULL;
+	s_buf = process_line(&ret, &s_buf);
 	free(buf);
 	buf = NULL;
 	return (ret);
 }
-*/
 /*
 int	main(int ac, char **av)
 {
