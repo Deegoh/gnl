@@ -6,7 +6,7 @@
 #    By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/21 17:35:44 by tpinto-m          #+#    #+#              #
-#    Updated: 2021/11/02 14:45:19 by tpinto-m         ###   ########.fr        #
+#    Updated: 2021/11/04 18:10:44 by tpinto-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ FLAGS = -Wextra -Werror -Wall
 CC = cc
 RM = rm -rf
 OBJ = $(SRC:%.c=%.o)
-FD = line
+FD = nl
 
 .PHONY: all clean ffclean re bonus
 
@@ -28,7 +28,10 @@ lldb: $(OBJ)
 	lldb g $(FD)
 
 leaks:
-	leaks -atExit -- ./$(NAME) $(FD)	
+	leaks -atExit -- ./$(NAME) $(FD)
+
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt -s ./$(NAME) $(FD)
 
 $(NAME):
 	$(CC) $(FLAGS) $(SRC) -o $(NAME)

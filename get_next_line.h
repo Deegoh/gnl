@@ -6,7 +6,7 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:56:23 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/11/03 10:17:06 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/04 17:47:42 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # endif
 
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strdup(const char *s1);
+char	*ft_strdup(char *s1);
 int		ft_strlen(const char *str);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strjoin(char *s1, char const *s2);
