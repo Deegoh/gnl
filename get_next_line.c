@@ -6,7 +6,7 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:56:03 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/11/04 18:58:36 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/04 18:59:36 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*process_line(int file, char **ret, char **s_buf)
 	if (i == 0)
 	{
 		free(n_buf);
-		*ret = NULL;
+		*ret = NULL;//leak
 	}
 	return (n_buf);
 }
