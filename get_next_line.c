@@ -6,22 +6,19 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:56:03 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/11/04 18:59:36 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/05 09:47:28 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <string.h>
 
-char	*process_line(int file, char **ret, char **s_buf)
+char	*process_line(char **ret, char **s_buf)
 {
 	char	*n_buf;
 	int		i;
 
 	n_buf = NULL;
 	i = 0;
-	//*ret = NULL;
-	(void)file;
 	while ((*s_buf)[i] != '\n' && (*s_buf)[i])
 		i++;
 	if ((*s_buf)[i] == '\n')
@@ -29,17 +26,16 @@ char	*process_line(int file, char **ret, char **s_buf)
 		i++;
 		*ret = ft_substr(*s_buf, 0, i);
 	}
-	else if ((*s_buf)[i] == '\0')
-	{
+	else if ((*s_buf)[i] == '\0' && *s_buf)
 		*ret = ft_strdup(*s_buf);
-	}
 	n_buf = ft_strdup(&(*s_buf)[i]);
 	free(*s_buf);
 	*s_buf = NULL;
 	if (i == 0)
 	{
 		free(n_buf);
-		*ret = NULL;//leak
+		n_buf = NULL;
+		return (NULL);
 	}
 	return (n_buf);
 }
@@ -49,6 +45,8 @@ int	read_file(int fd, char *buf, char **s_buf)
 	int		file;
 	char	*tmp;
 
+	if (!*s_buf)
+		*s_buf = ft_strdup("");
 	file = read(fd, buf, BUFFER_SIZE);
 	while (file)
 	{
@@ -81,20 +79,20 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
-	{
 		return (NULL);
-	}
-	if (read(fd, buf, 0) < 0) // checking content
+	if (read(fd, buf, 0) < 0)
 	{
 		free(buf);
 		buf = NULL;
-
 		return (NULL);
 	}
-	if (!s_buf)
-		s_buf = ft_strdup("");
 	file = read_file(fd, buf, &s_buf);
-	s_buf = process_line(file, &ret, &s_buf);
+	s_buf = process_line(&ret, &s_buf);
+	if (!file && !s_buf)
+	{
+		free(ret);
+		ret = NULL;
+	}
 	return (ret);
 }
 /*
@@ -103,20 +101,20 @@ int	main(int ac, char **av)
 	int		i;
 	int		fd;
 
-	i = 2;
+	i = 150;
 	if (ac == 2)
 	{
 		fd = open(av[1], O_RDONLY);
 		if (fd == -1)
 			return (0);
-		printf("START\n");
+//		printf("START\n");
 
 		while (i--)
 		{
 			//get_next_line(fd);
 			printf("%s", get_next_line(fd));
 		}
-		printf("FIN\n");
+//		printf("FIN\n");
 		close(fd);
 	}
 	return (0);

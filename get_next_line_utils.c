@@ -6,7 +6,7 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 11:33:32 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/11/04 18:58:38 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/05 09:47:24 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char	*ft_strjoin(char *s1, char const	*s2)
 	while (s2[j])
 		res[i++] = s2[j++];
 	res[i] = '\0';
-	//free(s1);
 	return (res);
 }
 
@@ -64,7 +63,7 @@ char	*ft_strdup(char *s1)
 	int		slen;
 	int		i;
 	char	*str;
-	
+
 	slen = ft_strlen((char *)s1);
 	i = -1;
 	str = (char *)malloc(slen + 1);
@@ -73,7 +72,6 @@ char	*ft_strdup(char *s1)
 	while (++i < slen)
 		str[i] = s1[i];
 	str[i] = '\0';
-	//free(s1);
 	return (str);
 }
 
