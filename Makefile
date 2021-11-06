@@ -10,25 +10,22 @@
 #                                                                              #
 # **************************************************************************** #
 
-#NAME = get_next_line
-NAME = g
-SRC = get_next_line.c get_next_line_utils.c
+NAME = gnl
+SRC = get_next_line.c\
+		get_next_line_utils.c
 FLAGS = -Wextra -Werror -Wall
 CC = cc
 RM = rm -rf
 OBJ = $(SRC:%.c=%.o)
 FD = get_next_line.c
 
-.PHONY: all clean ffclean re bonus
+.PHONY: all clean ffclean re bonus lldb valgrind
 
 all: $(NAME)
 
 lldb: $(OBJ)
 	$(CC) $(FLAGS) -fsanitize=address $(SRC) -o $(NAME)
 	lldb g $(FD)
-
-leaks:
-	leaks -atExit -- ./$(NAME) $(FD)
 
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt -s ./$(NAME) $(FD)
