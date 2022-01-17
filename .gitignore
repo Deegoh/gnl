@@ -1,4 +1,6 @@
+gnlTester/
+.idea
 .vscode
 .DS_Store
-gnlTester/
 gnl
+a.out**

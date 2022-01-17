@@ -6,11 +6,11 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:56:03 by tpinto-m          #+#    #+#             */
-/*   Updated: 2022/01/17 10:14:42 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2022/01/17 13:16:30 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*process_line(char **s_buf)
 {
@@ -57,17 +57,17 @@ void	read_file(int fd, char **s_buf)
 char	*get_next_line(int fd)
 {
 	char		*ret;
-	static char	*s_buf;
+	static char	*s_buf[4096];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 )
 		return (NULL);
-	read_file(fd, &s_buf);
-	ret = process_line(&s_buf);
+	read_file(fd, &s_buf[fd]);
+	ret = process_line(&s_buf[fd]);
 	if (!ret)
 	{
 		free(ret);
-		free(s_buf);
-		s_buf = NULL;
+		free(s_buf[fd]);
+		s_buf[fd] = NULL;
 		ret = NULL;
 	}
 	return (ret);
@@ -98,4 +98,4 @@ int	main(int ac, char **av)
 	}
 	return (0);
 }
-*/
+ */

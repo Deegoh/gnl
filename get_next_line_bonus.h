@@ -6,12 +6,12 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:56:23 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/12/09 18:49:34 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/05 09:52:50 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>

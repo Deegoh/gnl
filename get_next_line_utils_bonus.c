@@ -6,11 +6,11 @@
 /*   By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 11:33:32 by tpinto-m          #+#    #+#             */
-/*   Updated: 2021/12/11 12:08:54 by tpinto-m         ###   ########.fr       */
+/*   Updated: 2021/11/05 09:47:24 by tpinto-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../gnl/get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strjoin(char *s1, char const	*s2)
 {
@@ -19,8 +19,6 @@ char	*ft_strjoin(char *s1, char const	*s2)
 	int		i;
 	int		j;
 
-	if (!s1 || !s2)
-		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
 	res = malloc(len + 1);
 	if (!res)
@@ -44,6 +42,8 @@ char	*ft_strchr(const char *str, int c)
 	while (str[i] && str[i] != (char)c)
 		i++;
 	if (str[i] == (char)c)
+		return (&((char *)str)[i]);
+	if (str[i] == '\0' && (char)c == '\0')
 		return (&((char *)str)[i]);
 	return (NULL);
 }
@@ -78,18 +78,12 @@ char	*ft_strdup(char *s1)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*res;
-	size_t	slen;
 	size_t	i;
 
-	i = 0;
-	if (!*s)
-		return (NULL);
-	slen = ft_strlen(s);
-	if (slen < len)
-		len = slen;
-	res = malloc(sizeof(*res) * (len + 1));
+	res = malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (NULL);
+	i = 0;
 	while (i < len && start < (unsigned int)ft_strlen(s))
 		res[i++] = s[start++];
 	res[i] = '\0';

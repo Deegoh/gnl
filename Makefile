@@ -6,36 +6,42 @@
 #    By: tpinto-m <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/21 17:35:44 by tpinto-m          #+#    #+#              #
-#    Updated: 2021/11/05 09:34:54 by tpinto-m         ###   ########.fr        #
+#   Updated: 2021/12/09 18:45:53 by tpinto-m         ###   ########.fr       # #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = gnl
-SRC = get_next_line.c\
+SRC =	get_next_line.c\
 		get_next_line_utils.c
-FLAGS = -Wextra -Werror -Wall
+
+SRCBONUS = get_next_line_bonus.c\
+			get_next_line_utils_bonus.c
+
+CFLAGS = -Wextra -Werror -Wall
 CC = cc
 RM = rm -rf
 OBJ = $(SRC:%.c=%.o)
-FD = get_next_line.c
+OBJBONUS = $(SRCBONUS:%.c=%.o)
+FD = file/text
 
 .PHONY: all clean ffclean re bonus lldb valgrind
 
 all: $(NAME)
 
 lldb: $(OBJ)
-	$(CC) $(FLAGS) -fsanitize=address $(SRC) -o $(NAME)
-	lldb g $(FD)
+	$(CC) $(CFLAGS) -g $(SRC) -o $(NAME)
+	lldb $(NAME) $(FD)
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt -s ./$(NAME) $(FD)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s ./$(NAME) $(FD)
 
 $(NAME):
-	$(CC) $(FLAGS) $(SRC) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
 	./$(NAME) $(FD) | cat -e
 
 clean:
 	$(RM) $(OBJ)
+	$(RM) $(OBJBONUS)
 
 fclean: clean
 	$(RM) $(NAME)
@@ -43,3 +49,4 @@ fclean: clean
 re: fclean all
 	
 bonus:
+	$(CC) $(CFLAGS) $(SRCBONUS) -o $(NAME)
